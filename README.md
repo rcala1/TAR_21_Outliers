@@ -1,2 +1,2 @@
-# TAR_21_Outliers
+# Quora Question Pairs
 Project repository | TAR course
