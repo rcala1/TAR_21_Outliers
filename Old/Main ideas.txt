@@ -1,0 +1,30 @@
+Main ideas:
+
+word2vec,doc2vec,sent2vec,lda2vec
+
+ngrams
+
+length of questions, difference in length
+
+Siamese LSTM with Glove embeddings
+
+stacking of models
+
+gradient boosting models
+
+stemmed,not stemmed, stop words in or out
+
+lowercase, not lowercased
+
+spell correction, number of words in questions
+
+Bilstm with attention with glove - classified outputs with xgb
+
+ner and pos features
+
+graphs,clusters,neighbours
+
+bert,xlnet
+
+convolution
+
