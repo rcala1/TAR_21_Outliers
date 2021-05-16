@@ -1,8 +1,0 @@
-Results acc,f1,lb with CV 5
-
-Majority classifier 0.6308,0,6.09288
-Bow logreg 0.7581,0.6524 ?
-Bow linearsvm 0.7512 0.6590 ?
-
-
-
