@@ -1,5 +1,7 @@
 Experiment 1: Glove300 embeddings for words in 2 sentences, averaged, concatenated, LinearSVM not optimized Val acc: 68,51 Test acc: 68,56
 
-Experiment 2: Roberta-base train_acc: 0.9312 | val_acc: 0.9043 lr=2e-5,adam,epochs=3
+Experiment 2: Bert-base-uncased train_acc: 0.9522 | val_acc: 0.9064 lr=2e-5,adam,epochs=3 
 
-Experiment 3: XLNet-base train_acc:  | val_acc:  lr=2e-5,adam,epochs=3
+Experiment 3: Roberta-base train_acc: 0.9312 | val_acc: 0.9043 lr=2e-5,adam,epochs=3 
+
+Experiment 3: XLNet-base train_acc:  | val_acc:  lr=2e-5,adam,epochs=3 Soon
