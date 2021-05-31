@@ -68,7 +68,8 @@ def split_sentences_in_tokens(dataset):
 def concatenate_sentences(dataset):
     dataset_new = []
     for i in range(len(dataset)):
-        dataset_new += [list(dataset[i][0]) + list(dataset[i][1])]
+        print()
+        dataset_new += [dataset[i][0] + " " + dataset[i][1]]
     return dataset_new
 
 def most_frequent(List):
