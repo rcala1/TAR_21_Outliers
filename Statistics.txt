@@ -10,16 +10,24 @@ Experiment 4: Doc2Vec 200 size for sentences,concatenated, LinearSVM not optimiz
 
 Experiment 4: Doc2Vec 300 size for sentences,concatenated, LinearSVM not optimized, Val acc:0.6286 Test acc:0.6301
 
-Experiment 5: ngrams 
+Experiment 5: char ngrams 2,5000,LinearSVM not optimized, Val acc: 0.7026 Test acc: 0.7017
 
-Experiment 6: Bow model:
+Experiment 5: char ngrams 3,5000,LinearSVM not optimized, Val acc: 0.7367  Test acc: 0.7383
+
+Experiment 5: char ngrams 2,3,5000,LinearSVM not optimized, Val acc: Test acc: 0.7377 Test acc: 0.7329
+
+Experiment 5: char ngrams 2,3,7500,LinearSVM not optimized, Val acc: Test acc: 0.7351 Test acc: 0.7344
+
+Experiment 6: Bow model 5000 words,LinearSVM not optimized, Val acc: 0.7258 Test acc: 0.7210
+
+Experiment 6: Bow model 10000 words,LinearSVM not optimized, Val acc: 0.7404 Test acc: 0.7427
 
 Experiment 7: Concatenated features: 
 
-Experiment 8: Several models try:
-
 Experiment 9: best parameters:
 
-Experiment 10: BILSTM (or similiar) model:
+Experiment 10: BLSTM (or similiar) model:
 
 Experiment 11: Active Learning
+
+
