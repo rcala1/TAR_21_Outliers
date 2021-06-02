@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 import re
+from dataclasses import dataclass
+import torch
 
 def load_dataset_numpy(path):
     dataset = pd.read_csv(path)
@@ -72,5 +74,92 @@ def concatenate_sentences(dataset):
         dataset_new += [dataset[i][0] + " " + dataset[i][1]]
     return dataset_new
 
+def concatenate_sentences_arrays(dataset):
+    dataset_new = []
+    for i in range(len(dataset)):
+        print()
+        dataset_new += [list(dataset[i][0]) + list(dataset[i][1])]
+    return dataset_new
+
 def most_frequent(List):
     return max(set(List), key = List.count)
+
+@dataclass
+class Instance:
+    text: list
+    label: str
+
+class Vocab:
+
+    def __init__(self,file,label,max_size=-1,min_freq=0):
+
+        dataset = pd.read_csv(file).to_numpy()
+        self.frequencies={}
+
+        for line in dataset:
+            if label==True:
+                splitted=str(line[5]).split()
+            else:
+                splitted=str(line[3]).split()+str(line[4]).split()
+            for token in splitted:
+                value=self.frequencies.get(token)
+                if value is None:
+                    self.frequencies[token]=1
+                else:
+                    self.frequencies[token]+=1
+
+        sorted_freq=sorted(self.frequencies.items(),key=lambda item: item[1],reverse=True)
+
+        self.itos={}
+        self.stoi={}
+        index=-1
+
+        if label==False: 
+         self.itos={0:"<PAD>",1:"<UNK>"}
+         self.stoi={"<PAD>":0,"<UNK>":1}
+         index=1
+
+        if max_size!=-1:
+            sorted_freq=sorted_freq[:max_size]
+
+        for token, value in sorted_freq:
+            if value<min_freq:
+                break
+            index+=1
+            self.itos[index]=token
+            self.stoi[token]=index
+
+    def encode(self,text):
+        if isinstance(text,str):
+            return self.encode_string(text)
+        else:
+            return self.encode_list(text)
+
+    def decode(self,text):
+        if isinstance(text,str):
+            self.encode_string(text)
+        else:
+            self.encode_list(text)
+
+    def encode_list(self,text: list):
+        encoded_text=[]
+        for token in text:
+            if self.stoi.get(token) is None:
+                encoded_text+=[1]
+            else:
+                encoded_text+=[self.stoi[token]]
+        return torch.IntTensor(encoded_text)
+
+    def encode_string(self,text: str):
+        if self.stoi.get(text) is None:
+            return 1
+        return torch.IntTensor([self.stoi[text]])
+
+    def decode_string(self,encoded: list):
+        decoded_text=[]
+        for index in encoded:
+            decoded_text+=[self.itos[index]]
+        return torch.IntTensor(decoded_text)
+
+    def decode_list(self,encoded: int):
+        return torch.IntTensor(self.itos[encoded])
