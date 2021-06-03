@@ -1,33 +1,33 @@
 Experiment 0: Dummy classifier, most frequent class, Val acc: 0.6336 Test acc: 0.6317
 
-Experiment 1: Glove300 embeddings for words in 2 sentences, averaged, concatenated, LinearSVM not optimized Val acc: 68,51 Test acc: 68,56
+Experiment 1: Glove300 embeddings for words in 2 sentences, averaged, concatenated, Val acc: 68,51 Test acc: 68,56
 
 Experiment 2: Bert-base-uncased train_acc: 0.9522 | val_acc: 0.9064 lr=2e-5,adam,epochs=3 
 
 Experiment 3: Roberta-base train_acc: 0.9312 | val_acc: 0.9043 lr=2e-5,adam,epochs=3 
 
-Experiment 4: Doc2Vec 200 size for sentences,concatenated, LinearSVM not optimized, Val acc:0.6302 Test acc:0.6275
+Experiment 4: Doc2Vec 200 size for sentences,concatenated, Val acc:0.6302 Test acc:0.6275
 
-Experiment 4: Doc2Vec 300 size for sentences,concatenated, LinearSVM not optimized, Val acc:0.6286 Test acc:0.6301
+Experiment 4: Doc2Vec 300 size for sentences,concatenated, Val acc:0.6286 Test acc:0.6301
 
-Experiment 5: char ngrams 2,5000,LinearSVM not optimized, Val acc: 0.7026 Test acc: 0.7017
+Experiment 5: char ngrams 2,5000, Val acc: 0.7026 Test acc: 0.7017
 
-Experiment 5: char ngrams 3,5000,LinearSVM not optimized, Val acc: 0.7367  Test acc: 0.7383
+Experiment 5: char ngrams 3,5000, Val acc: 0.7367  Test acc: 0.7383
 
-Experiment 5: char ngrams 2,3,5000,LinearSVM not optimized, Val acc: Test acc: 0.7377 Test acc: 0.7329
+Experiment 5: char ngrams 2,3,5000, Val acc: Test acc: 0.7377 Test acc: 0.7329
 
-Experiment 5: char ngrams 2,3,7500,LinearSVM not optimized, Val acc: Test acc: 0.7351 Test acc: 0.7344
+Experiment 5: char ngrams 2,3,7500, Val acc: Test acc: 0.7351 Test acc: 0.7344
 
-Experiment 6: Bow model 5000 words,LinearSVM not optimized, Val acc: 0.7258 Test acc: 0.7210
+Experiment 6: Bow model 5000 words, Val acc: 0.7258 Test acc: 0.7210
 
-Experiment 6: Bow model 10000 words,LinearSVM not optimized, Val acc: 0.7404 Test acc: 0.7427
+Experiment 6: Bow model 10000 words, Val acc: 0.7404 Test acc: 0.7427
 
-Experiment 7: Concatenated features: 
+Experiment 7: Concatenated features, Val acc: 0.7462 Test acc: 0.7124
 
-Experiment 9: best parameters:
+Experiment 8: Concatenated features, Val acc:  Test acc: 
 
-Experiment 10: BLSTM (or similiar) model:
+Experiment 9: BLSTM 2 layer model, 5 epochs, lr 0.002, linear decay, adam, batch 32: Val acc: 0.7999 Test acc: 0.8019
 
-Experiment 11: Active Learning
+Experiment 10: Active Learning
 
 

@@ -3,7 +3,7 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from nltk.tokenize import word_tokenize
 from sklearn.feature_extraction.text import CountVectorizer
 import utils_general
-import pickle
+
 
 def get_largest_length(dataset):
     length = 0
@@ -124,27 +124,45 @@ def diff_of_length_sentences(dataset):
 
     return difference_length
 
-def vectorizer_features(train_dataset,val_dataset,test_dataset,type="word",ngram_range=(1,1),max_features=None):
 
-    train_dataset_concatenated=utils_general.concatenate_sentences(train_dataset)
-    countvectorizer=CountVectorizer(analyzer=type,ngram_range=ngram_range,max_features=max_features)
+def vectorizer_features(
+    train_dataset,
+    val_dataset,
+    test_dataset,
+    type="word",
+    ngram_range=(1, 1),
+    max_features=None,
+):
+
+    train_dataset_concatenated = utils_general.concatenate_sentences(train_dataset)
+    countvectorizer = CountVectorizer(
+        analyzer=type, ngram_range=ngram_range, max_features=max_features
+    )
     countvectorizer.fit(train_dataset_concatenated)
 
-    first_sentences_train,second_sentences_train=zip(*train_dataset)
-    first_sentences_val,second_sentences_val=zip(*val_dataset)
-    first_sentences_test,second_sentences_test=zip(*test_dataset)
+    first_sentences_train, second_sentences_train = zip(*train_dataset)
+    first_sentences_val, second_sentences_val = zip(*val_dataset)
+    first_sentences_test, second_sentences_test = zip(*test_dataset)
 
-    first_sentences_train=countvectorizer.transform(first_sentences_train).toarray()
-    second_sentences_train=countvectorizer.transform(second_sentences_train).toarray()
-    concatenated_train=[list(first)+list(second) for first,second in zip(first_sentences_train,second_sentences_train)]
+    first_sentences_train = countvectorizer.transform(first_sentences_train).toarray()
+    second_sentences_train = countvectorizer.transform(second_sentences_train).toarray()
+    concatenated_train = [
+        list(first) + list(second)
+        for first, second in zip(first_sentences_train, second_sentences_train)
+    ]
 
-    first_sentences_val=countvectorizer.transform(first_sentences_val).toarray()
-    second_sentences_val=countvectorizer.transform(second_sentences_val).toarray()
-    concatenated_val=[list(first)+list(second) for first,second in zip(first_sentences_val,second_sentences_val)]
+    first_sentences_val = countvectorizer.transform(first_sentences_val).toarray()
+    second_sentences_val = countvectorizer.transform(second_sentences_val).toarray()
+    concatenated_val = [
+        list(first) + list(second)
+        for first, second in zip(first_sentences_val, second_sentences_val)
+    ]
 
-    first_sentences_test=countvectorizer.transform(first_sentences_test).toarray()
-    second_sentences_test=countvectorizer.transform(second_sentences_test).toarray()
-    concatenated_test=[list(first)+list(second) for first,second in zip(first_sentences_test,second_sentences_test)]
+    first_sentences_test = countvectorizer.transform(first_sentences_test).toarray()
+    second_sentences_test = countvectorizer.transform(second_sentences_test).toarray()
+    concatenated_test = [
+        list(first) + list(second)
+        for first, second in zip(first_sentences_test, second_sentences_test)
+    ]
 
-    return concatenated_train,concatenated_val,concatenated_test
-
+    return concatenated_train, concatenated_val, concatenated_test
