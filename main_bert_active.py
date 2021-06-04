@@ -34,7 +34,7 @@ bert_log = open("output_bert_active.txt", "a+")
 for init_perc, incr_perc in experiment_combinations:
 
     bert_log.write(
-        "BERT Initial Percentage {} Increasing Percentage {}".format(
+        "BERT Initial Percentage {} Increasing Percentage {}\n".format(
             init_perc, incr_perc
         )
     )
@@ -66,7 +66,7 @@ for init_perc, incr_perc in experiment_combinations:
         test_loss, test_acc = evaluate_test(model, test_loader, device)
 
         bert_log.write(
-            "Train Examples {}, Pooling Examples, Val Acc {}, Test Acc {}".format(
+            "Train Examples {}, Pooling Examples, Val Acc {}, Test Acc {}\n".format(
                 len(X_train_current), len(X_train_pooling), val_acc, test_acc
             )
         )
