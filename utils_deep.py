@@ -212,7 +212,7 @@ class BLSTM(nn.Module):
         hidden_size=150,
         num_layers=2,
         dropout=0,
-        linear_dim=[300, 150, 1],
+        linear_dim=[300, 150, 2],
     ):
         super().__init__()
         self.embedding_matrix = embedding_matrix
@@ -266,9 +266,9 @@ def train(model, data, optimizer, criterion, device):
     model.train()
     for x, y, idxs in tqdm(data):
         x = x.to(device)
-        y = torch.Tensor(y).to(device)
+        y = torch.LongTensor(y).to(device)
         logits = model(x)
-        loss = criterion(logits, y.reshape(len(y), 1))
+        loss = criterion(logits, y)
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
@@ -282,14 +282,14 @@ def evaluate(model, data, criterion, device):
     with torch.no_grad():
         for x, y, idxs in data:
             x = x.to(device)
-            y = torch.Tensor(y).to(device)
+            y = torch.LongTensor(y).to(device)
             logits = model(x)
-            loss = criterion(logits, y.reshape(len(y), 1))
+            loss = criterion(logits, y)
             losses += [loss.cpu().detach().numpy()]
-            y_preds += (logits > 0).long().cpu().detach().numpy().tolist()
+            y_preds += torch.argmax(logits, 1).cpu().detach().numpy().tolist()
             ys += y.cpu().detach().numpy().tolist()
         ys = np.array(ys)
-        y_preds = np.array(y_preds).squeeze()
+        y_preds = np.array(y_preds)
         acc = np.sum(ys == y_preds) / len(ys)
         return {
             "loss": np.mean(losses),
@@ -325,19 +325,22 @@ def generate_embedding_matrix(file, vocab, random_normal=False, freeze=False):
 
 
 class NLPDataset(torch.utils.data.Dataset):
-    def __init__(self, vocab_text, vocab_label, file, range=None):
+    def __init__(self, vocab_text, vocab_label, file=None, range=None, instances=None):
 
         self.instances = []
         self.vocab_text = vocab_text
         self.vocab_label = vocab_label
-        dataset = pd.read_csv(file).to_numpy()
-        if range is not None:
-            dataset = dataset[range[0] : range[1]]
-        for line in dataset:
-            first, second, label = line[3:]
-            self.instances += [
-                Instance(str(first).split() + str(second).split(), str(label))
-            ]
+        if instances is None:
+            dataset = pd.read_csv(file).to_numpy()
+            if range is not None:
+                dataset = dataset[range[0] : range[1]]
+            for line in dataset:
+                first, second, label = line[3:]
+                self.instances += [
+                    Instance(str(first).split() + str(second).split(), str(label))
+                ]
+        else:
+            self.instances = instances
 
     def __getitem__(self, idx):
         x_encoded = self.vocab_text.encode(self.instances[idx].text)
@@ -348,9 +351,10 @@ class NLPDataset(torch.utils.data.Dataset):
         return len(self.instances)
 
 
-def extract_new_examples_idxs(
-    model, train_pooling_loader, increasing_percentage, device
+def extract_new_examples_idxs_bert(
+    model, train_pooling_loader, increasing_number, device
 ):
+    model.eval()
     predictions = []
     with torch.no_grad():
         for (pair_token_ids, mask_ids, seg_ids, y) in tqdm(train_pooling_loader):
@@ -369,4 +373,4 @@ def extract_new_examples_idxs(
             predictions += softmax_max.cpu().detach().numpy().tolist()
     indexes = np.arange(len(predictions))
     indexes_sorted = sorted(indexes, key=lambda idx: predictions[idx])
-    return indexes_sorted[: int(len(indexes) * increasing_percentage)]
+    return indexes_sorted[:increasing_number]

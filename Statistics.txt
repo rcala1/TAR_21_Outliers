@@ -2,9 +2,9 @@ Experiment 0: Dummy classifier, most frequent class, Val acc: 0.6336 Test acc: 0
 
 Experiment 1: Glove300 embeddings for words in 2 sentences, averaged, concatenated, Val acc: 68,51 Test acc: 68,56
 
-Experiment 2: Bert-base-uncased train_acc: 0.9522 | val_acc: 0.9064 lr=2e-5,adam,epochs=3 
+Experiment 2: Bert-base-uncased train_acc: 0.9467 | val_acc: 0.8984 test_acc: lr=2e-5,adam,epochs=3
 
-Experiment 3: Roberta-base train_acc: 0.9312 | val_acc: 0.9043 lr=2e-5,adam,epochs=3 
+Experiment 3: Roberta-base train_acc: 0.9312 | val_acc: 0.9043 test_acc: lr=2e-5,adam,epochs=3 
 
 Experiment 4: Doc2Vec 200 size for sentences,concatenated, Val acc:0.6302 Test acc:0.6275
 
@@ -22,12 +22,15 @@ Experiment 6: Bow model 5000 words, Val acc: 0.7258 Test acc: 0.7210
 
 Experiment 6: Bow model 10000 words, Val acc: 0.7404 Test acc: 0.7427
 
-Experiment 7: Concatenated features, Val acc: 0.7462 Test acc: 0.7124
+Experiment 7: Concatenated features bow and ngrams, Val acc: 0.7388 Test acc: 0.7421
 
-Experiment 8: Concatenated features, Val acc:  Test acc: 
+Experiment 8: Concatenated features char glove, Val acc: 0.7408  Test acc: 0.7067
+
+Experiment 8: Concatenated features, Val acc: 0.7402 Test acc: 0.7056
 
 Experiment 9: BLSTM 2 layer model, 5 epochs, lr 0.002, linear decay, adam, batch 32: Val acc: 0.7999 Test acc: 0.8019
 
-Experiment 10: Active Learning
+Experiment 10: Active Learning BERT
 
+Experiment 11: Active Learning BLSTM
 
