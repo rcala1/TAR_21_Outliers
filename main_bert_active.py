@@ -47,7 +47,7 @@ for init_perc, incr_perc in experiment_combinations:
     y_train_pooling = np.array(y_train[int(len(y_train) * init_perc) :])
 
     while True:
-        
+
         quora_dataset = QuoraDataBert(
             [X_train_current, X_train_pooling], [y_train_current, y_train_pooling]
         )
@@ -61,7 +61,7 @@ for init_perc, incr_perc in experiment_combinations:
         model = model.to(device)
         optimizer = Adam(model.parameters(), lr=2e-5)
         epochs = 3
-        train_deep(model, train_current_loader, val_loader, optimizer, epochs, device)
+        train_deep(model, train_current_loader, optimizer, epochs, device)
         val_loss, val_acc = evaluate_val(model, val_loader, device)
         test_loss, test_acc = evaluate_test(model, test_loader, device)
 
