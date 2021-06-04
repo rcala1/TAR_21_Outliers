@@ -74,7 +74,7 @@ def acc_stat(y_pred, y_true):
     return acc
 
 
-def train_deep(model, train_loader, val_loader, optimizer, epochs, device):
+def train_deep(model, train_loader, optimizer, epochs, device):
 
     for epoch in range(epochs):
         model.train()
