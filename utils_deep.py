@@ -73,10 +73,7 @@ def acc_stat(y_pred, y_true):
     ).sum().float() / float(y_true.size(0))
     return acc
 
-
-def train_deep(model, train_loader, val_loader, optimizer, epochs, device):
-
-    start = time.time()
+def train_deep(model, train_loader,optimizer, epochs, device):
 
     for epoch in range(epochs):
         model.train()
@@ -106,40 +103,9 @@ def train_deep(model, train_loader, val_loader, optimizer, epochs, device):
         train_acc = total_train_acc / len(train_loader)
         train_loss = total_train_loss / len(train_loader)
 
-        model.eval()
-        total_val_acc = 0
-        total_val_loss = 0
-
-        with torch.no_grad():
-            for (pair_token_ids, mask_ids, seg_ids, y) in tqdm(val_loader):
-                pair_token_ids = pair_token_ids.to(device)
-                mask_ids = mask_ids.to(device)
-                seg_ids = seg_ids.to(device)
-                labels = y.to(device)
-
-                loss, prediction = model(
-                    pair_token_ids,
-                    attention_mask=mask_ids,
-                    labels=labels,
-                ).values()
-
-                acc = acc_stat(prediction, labels)
-
-                total_val_loss += loss.item()
-                total_val_acc += acc.item()
-
-        val_acc = total_val_acc / len(val_loader)
-        val_loss = total_val_loss / len(val_loader)
-
-        end = time.time()
-        hours, rem = divmod(end - start, 3600)
-        minutes, seconds = divmod(rem, 60)
-
         print(
-            f"Epoch {epoch+1}: train_loss: {train_loss:.4f} train_acc: {train_acc:.4f} | val_loss: {val_loss:.4f} val_acc: {val_acc:.4f}"
+            f"Epoch {epoch+1}: train_loss: {train_loss:.4f} train_acc: {train_acc:.4f}"
         )
-        print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds))
-
 
 def evaluate_val(model, val_loader, device):
 
@@ -203,6 +169,8 @@ def evaluate_test(model, test_loader, device):
     print(f"Test_loss: {test_loss:.4f} val_acc: {test_acc:.4f}")
 
     return test_loss, test_acc
+
+
 
 
 class BLSTM(nn.Module):
