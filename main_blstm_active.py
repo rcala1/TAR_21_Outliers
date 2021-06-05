@@ -117,7 +117,7 @@ for init_perc, incr_perc, method in itertools.product(
         )
         blstm_log.flush()
 
-        if int(stoppage_percentage*dataset_length) >= len(train_current_loader.dataset):
+        if int(stoppage_percentage*dataset_length) <= len(train_current_loader.dataset):
             break
 
         new_indexes = extract_new_examples_idxs_blstm(
