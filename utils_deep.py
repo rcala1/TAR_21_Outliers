@@ -8,6 +8,7 @@ from tqdm import tqdm
 import numpy as np
 from utils_general import Instance
 import pandas as pd
+import random
 
 
 class QuoraDataBert(Dataset):
@@ -103,7 +104,7 @@ def train_deep(model, train_loader, optimizer, epochs, device):
 
         train_acc = total_train_acc / len(train_loader)
         train_loss = total_train_loss / len(train_loader)
-        
+
         print(
             f"Epoch {epoch+1}: train_loss: {train_loss:.4f} train_acc: {train_acc:.4f}"
         )
@@ -320,25 +321,30 @@ class NLPDataset(torch.utils.data.Dataset):
 
 
 def extract_new_examples_idxs_bert(
-    model, train_pooling_loader, increasing_number, device
+    model, train_pooling_loader, increasing_number, device, method
 ):
     model.eval()
     predictions = []
-    with torch.no_grad():
-        for (pair_token_ids, mask_ids, seg_ids, y) in tqdm(train_pooling_loader):
-            pair_token_ids = pair_token_ids.to(device)
-            mask_ids = mask_ids.to(device)
-            seg_ids = seg_ids.to(device)
-            labels = y.to(device)
+    if method == "active":
+        with torch.no_grad():
+            for (pair_token_ids, mask_ids, seg_ids, y) in tqdm(train_pooling_loader):
+                pair_token_ids = pair_token_ids.to(device)
+                mask_ids = mask_ids.to(device)
+                seg_ids = seg_ids.to(device)
+                labels = y.to(device)
 
-            loss, prediction = model(
-                pair_token_ids,
-                attention_mask=mask_ids,
-                labels=labels,
-            ).values()
+                loss, prediction = model(
+                    pair_token_ids,
+                    attention_mask=mask_ids,
+                    labels=labels,
+                ).values()
 
-            softmax_max = torch.max(torch.softmax(prediction, 1), 1).values
-            predictions += softmax_max.cpu().detach().numpy().tolist()
-    indexes = np.arange(len(predictions))
-    indexes_sorted = sorted(indexes, key=lambda idx: predictions[idx])
-    return indexes_sorted[:increasing_number]
+                softmax_max = torch.max(torch.softmax(prediction, 1), 1).values
+                predictions += softmax_max.cpu().detach().numpy().tolist()
+        indexes = np.arange(len(predictions))
+        indexes_sorted = sorted(indexes, key=lambda idx: predictions[idx])
+        return indexes_sorted[:increasing_number]
+    else:
+        indexes = np.arange(len(predictions))
+        random.shuffle(indexes)
+        return indexes[:increasing_number]
