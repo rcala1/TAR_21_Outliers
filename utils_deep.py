@@ -74,7 +74,8 @@ def acc_stat(y_pred, y_true):
     ).sum().float() / float(y_true.size(0))
     return acc
 
-def train_deep(model, train_loader,optimizer, epochs, device):
+
+def train_deep(model, train_loader, optimizer, epochs, device):
 
     for epoch in range(epochs):
         model.train()
@@ -107,6 +108,7 @@ def train_deep(model, train_loader,optimizer, epochs, device):
         print(
             f"Epoch {epoch+1}: train_loss: {train_loss:.4f} train_acc: {train_acc:.4f}"
         )
+
 
 def evaluate_val(model, val_loader, device):
 
@@ -170,8 +172,6 @@ def evaluate_test(model, test_loader, device):
     print(f"Test_loss: {test_loss:.4f} val_acc: {test_acc:.4f}")
 
     return test_loss, test_acc
-
-
 
 
 class BLSTM(nn.Module):
@@ -325,7 +325,7 @@ def extract_new_examples_idxs_bert(
 ):
     model.eval()
     predictions = []
-    if method=='active':
+    if method == "active":
         with torch.no_grad():
             for (pair_token_ids, mask_ids, seg_ids, y) in tqdm(train_pooling_loader):
                 pair_token_ids = pair_token_ids.to(device)
