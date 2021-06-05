@@ -38,8 +38,7 @@ for init_perc, incr_perc, method in experiment_combinations:
 
     bert_log.write(
         "BERT Initial Percentage {} Increasing Percentage {} Method {}\n".format(
-            init_perc, incr_perc, method
-        )
+            init_perc, incr_perc, method)
     )
 
     X_original_train = np.array(X_train)
