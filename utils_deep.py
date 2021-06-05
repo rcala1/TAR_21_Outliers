@@ -169,7 +169,7 @@ def evaluate_test(model, test_loader, device):
     test_acc = total_test_acc / len(test_loader)
     test_loss = total_test_loss / len(test_loader)
 
-    print(f"Test_loss: {test_loss:.4f} val_acc: {test_acc:.4f}")
+    print(f"Test_loss: {test_loss:.4f} test_acc: {test_acc:.4f}")
 
     return test_loss, test_acc
 

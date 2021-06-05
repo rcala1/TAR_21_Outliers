@@ -14,6 +14,7 @@ from utils_deep import extract_new_examples_idxs_blstm
 
 initial_percentages = [0.02]
 increasing_percentages = [0.01, 0.02]
+stoppage_percentage=0.25
 methods = ["random", "active"]
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -116,7 +117,7 @@ for init_perc, incr_perc, method in itertools.product(
         )
         blstm_log.flush()
 
-        if dataset_length == len(train_current_loader.dataset):
+        if int(stoppage_percentage*dataset_length) == len(train_current_loader.dataset):
             break
 
         new_indexes = extract_new_examples_idxs_blstm(
