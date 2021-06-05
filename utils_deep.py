@@ -348,3 +348,26 @@ def extract_new_examples_idxs_bert(
         indexes = np.arange(len(train_pooling_loader.dataset))
         random.shuffle(indexes)
         return indexes[:increasing_number]
+
+
+def extract_new_examples_idxs_blstm(
+    model, train_pooling_loader, increasing_number, device, method
+):
+    if method == "active":
+        model.eval()
+        predictions = []
+        with torch.no_grad():
+            for x, y, idx in tqdm(train_pooling_loader):
+
+                x = x.to(device)
+                y = torch.LongTensor(y).to(device)
+                y_norm_max = torch.max(torch.softmax(model(x), 1), 1).values
+                predictions += y_norm_max.cpu().detach().numpy().tolist()
+
+        indexes = np.arange(len(predictions))
+        indexes_sorted = sorted(indexes, key=lambda idx: predictions[idx])
+        return indexes_sorted[:increasing_number]
+    else:
+        indexes = np.arange(len(train_pooling_loader.dataset))
+        random.shuffle(indexes)
+        return indexes[:increasing_number]
