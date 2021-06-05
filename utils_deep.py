@@ -345,6 +345,6 @@ def extract_new_examples_idxs_bert(
         indexes_sorted = sorted(indexes, key=lambda idx: predictions[idx])
         return indexes_sorted[:increasing_number]
     else:
-        indexes = np.arange(len(predictions))
+        indexes = np.arange(len(train_pooling_loader.dataset))
         random.shuffle(indexes)
         return indexes[:increasing_number]
