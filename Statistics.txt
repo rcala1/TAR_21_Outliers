@@ -30,7 +30,3 @@ Experiment 8: Concatenated features, Val acc: 0.7402 Test acc: 0.7056
 
 Experiment 9: BLSTM 2 layer model, 5 epochs, lr 0.002, linear decay, adam, batch 32: Val acc: 0.7999 Test acc: 0.8019
 
-Experiment 10: Active Learning BERT
-
-Experiment 11: Active Learning BLSTM
-
